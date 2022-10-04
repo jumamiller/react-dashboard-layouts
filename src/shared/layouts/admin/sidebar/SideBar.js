@@ -1,81 +1,79 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+//import useState hook to create menu collapse state
+import React, { useState } from "react";
+
+//import react pro sidebar components
 import {
-    faHome,
-    faBriefcase,
-    faPaperPlane,
-    faQuestion,
-    faImage,
-    faTimes
-} from "@fortawesome/free-solid-svg-icons";
-import { Nav, Button } from "react-bootstrap";
-import classNames from "classnames";
+    ProSidebar,
+    Menu,
+    MenuItem,
+    SidebarHeader,
+    SidebarFooter,
+    SidebarContent,
+} from "react-pro-sidebar";
 
-class SideBar extends React.Component {
-    constructor(props) {
-        super(props);
+//import icons from react icons
+import { FaList, FaRegHeart } from "react-icons/fa";
+import { FiHome, FiLogOut, FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
+import { RiPencilLine } from "react-icons/ri";
+import { BiCog } from "react-icons/bi";
 
-        // Mobile first
-        this.state = {
-            isOpen: false,
-            isMobile: true
-        };
-    }
-    toggle = () => {
-        this.setState({ isOpen: !this.state.isOpen });
+
+//import sidebar css from react-pro-sidebar module and our custom css
+import "react-pro-sidebar/dist/css/styles.css";
+import "./Header.css";
+
+
+const SideBar = () => {
+
+    //create initial menuCollapse state using useState hook
+    const [menuCollapse, setMenuCollapse] = useState(false)
+
+    //create a custom function that will change menucollapse state from false to true and true to false
+    const menuIconClick = () => {
+        //condition checking to change state from true to false and vice versa
+        menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
     };
-    render() {
-        return (
-            <div className={classNames("sidebar", { "is-open": this.props.isOpen })}>
-                <div className="sidebar-header">
-                    <Button
-                        variant="link"
-                        onClick={this.props.toggle}
-                        style={{ color: "#fff" }}
-                        className="mt-4"
-                    >
-                        <FontAwesomeIcon icon={faTimes} pull="right" size="xs" />
-                    </Button>
-                </div>
 
-                <Nav className="flex-column pt-0">
-                    <Nav.Item className="active">
-                        <Nav.Link href="/">
-                            <FontAwesomeIcon icon={faHome} className="mr-2" />
-                            Home
-                        </Nav.Link>
-                    </Nav.Item>
-
-                    <Nav.Item>
-                        <Nav.Link href="/">
-                            <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
-                            About
-                        </Nav.Link>
-                    </Nav.Item>
-
-                    <Nav.Item>
-                        <Nav.Link href="/">
-                            <FontAwesomeIcon icon={faImage} className="mr-2" />
-                            Portfolio
-                        </Nav.Link>
-                    </Nav.Item>
-
-                    <Nav.Item>
-                        <Nav.Link href="/">
-                            <FontAwesomeIcon icon={faQuestion} className="mr-2" />
-                            FAQ
-                        </Nav.Link>
-                    </Nav.Item>
-
-                    <Nav.Item>
-                        <Nav.Link href="/">
-                            <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
-                            Contact
-                        </Nav.Link>
-                    </Nav.Item>
-                </Nav>
+    return (
+        <>
+            <div id="header">
+                {/* collapsed props to change menu size using menucollapse state */}
+                <ProSidebar collapsed={menuCollapse}>
+                    <SidebarHeader>
+                        <div className="logotext">
+                            {/* small and big change using menucollapse state */}
+                            <p>{menuCollapse ? "Logo" : "Big Logo"}</p>
+                        </div>
+                        <div className="closemenu" onClick={menuIconClick}>
+                            {/* changing menu collapse icon on click */}
+                            {menuCollapse ? (
+                                <FiArrowRightCircle/>
+                            ) : (
+                                <FiArrowLeftCircle/>
+                            )}
+                        </div>
+                    </SidebarHeader>
+                    <SidebarContent>
+                        <Menu iconShape="square">
+                            <MenuItem active={true} icon={<FiHome />}>
+                                Home
+                            </MenuItem>
+                            <MenuItem icon={<FaList />}>Category</MenuItem>
+                            <MenuItem icon={<FaRegHeart />}>Favourite</MenuItem>
+                            <MenuItem icon={<RiPencilLine />}>Author</MenuItem>
+                            <MenuItem icon={<BiCog />}>Settings</MenuItem>
+                        </Menu>
+                    </SidebarContent>
+                    <SidebarFooter>
+                        <Menu iconShape="square">
+                            <MenuItem icon={<FiLogOut />}>Logout</MenuItem>
+                        </Menu>
+                    </SidebarFooter>
+                </ProSidebar>
             </div>
-        );
-    }
-}
+        </>
+    );
+};
+
 export default SideBar;
