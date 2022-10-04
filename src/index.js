@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter} from "react-router-dom";
-import App from "./entry/App";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import AdminLayout from "./shared/layouts/admin/AdminLayout";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
-        <App />
+        <Routes>
+            <Route path={`/admin/*`} element={<AdminLayout/>} />
+        </Routes>
     </BrowserRouter>,
 );
 
